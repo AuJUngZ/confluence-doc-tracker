@@ -162,7 +162,7 @@ export default function ConfluenceSearch() {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString("th-TH", {
+    return new Date(dateString).toLocaleString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -183,7 +183,7 @@ export default function ConfluenceSearch() {
             </h1>
           </div>
           <p className="text-muted-foreground text-lg">
-            ค้นหาและติดตามเอกสารที่คุณมีส่วนร่วมใน Confluence
+            Search and track documents you've contributed to in Confluence
           </p>
         </div>
 
@@ -195,14 +195,14 @@ export default function ConfluenceSearch() {
           </AlertTitle>
           <AlertDescription>
             {configLoading ? (
-              <p>กำลังโหลด configuration...</p>
+              <p>Loading configuration...</p>
             ) : config ? (
               <div className="mt-2 space-y-2">
                 <div className="flex items-center gap-2">
                   <Server className="h-4 w-4" />
                   <span className="font-medium">Domain:</span>
                   <span className="font-mono text-sm">
-                    {config.confluenceDomain || "ไม่ระบุ"}
+                    {config.confluenceDomain || "Not specified"}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -211,18 +211,16 @@ export default function ConfluenceSearch() {
                   <span>
                     {config.userDisplayName
                       ? `${config.userDisplayName} (${config.userEmail})`
-                      : config.userEmail || "ไม่ระบุ"}
+                      : config.userEmail || "Not specified"}
                   </span>
                 </div>
                 <Separator className="my-2" />
                 <p className="text-xs text-muted-foreground">
-                  ระบบจะค้นหาเอกสารที่คุณสร้างหรือแก้ไข
+                  The system will search for documents you created or modified
                 </p>
               </div>
             ) : (
-              <p className="text-destructive">
-                ไม่สามารถโหลด configuration ได้
-              </p>
+              <p className="text-destructive">Failed to load configuration</p>
             )}
           </AlertDescription>
         </Alert>
@@ -232,10 +230,10 @@ export default function ConfluenceSearch() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Search className="h-5 w-5" />
-              ค้นหาเอกสาร
+              Search Documents
             </CardTitle>
             <CardDescription>
-              เลือกช่วงวันที่เพื่อค้นหาเอกสารที่มีการแก้ไข
+              Select a date range to search for modified documents
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -247,7 +245,7 @@ export default function ConfluenceSearch() {
                     className="flex items-center gap-2"
                   >
                     <Calendar className="h-4 w-4" />
-                    วันที่เริ่มต้น
+                    Start Date
                   </Label>
                   <Input
                     id="startDate"
@@ -260,7 +258,7 @@ export default function ConfluenceSearch() {
                 <div className="space-y-2">
                   <Label htmlFor="endDate" className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
-                    วันที่สิ้นสุด
+                    End Date
                   </Label>
                   <Input
                     id="endDate"
@@ -278,7 +276,7 @@ export default function ConfluenceSearch() {
                 size="lg"
               >
                 <Search className="mr-2 h-4 w-4" />
-                {loading ? "กำลังค้นหา..." : "ค้นหาเอกสาร"}
+                {loading ? "Searching..." : "Search Documents"}
               </Button>
             </form>
           </CardContent>
@@ -288,7 +286,7 @@ export default function ConfluenceSearch() {
         {error && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>เกิดข้อผิดพลาด</AlertTitle>
+            <AlertTitle>Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
@@ -299,17 +297,16 @@ export default function ConfluenceSearch() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="h-5 w-5" />
-                ผลการค้นหา
+                Search Results
               </CardTitle>
               <CardDescription className="flex items-center gap-2 flex-wrap">
                 <span>
-                  พบ{" "}
+                  Found{" "}
                   <Badge variant="default" className="inline-flex mx-1">
                     {results.totalCount}
                   </Badge>{" "}
-                  เอกสาร ที่{" "}
-                  <span className="font-semibold">{results.searchedUser}</span>{" "}
-                  มีส่วนร่วม
+                  documents contributed by{" "}
+                  <span className="font-semibold">{results.searchedUser}</span>
                 </span>
               </CardDescription>
             </CardHeader>
@@ -318,7 +315,7 @@ export default function ConfluenceSearch() {
                 <div className="text-center py-12">
                   <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                   <p className="text-muted-foreground">
-                    ไม่พบเอกสารที่ตรงกับเงื่อนไขการค้นหา
+                    No documents found matching the search criteria
                   </p>
                 </div>
               ) : (
@@ -337,7 +334,10 @@ export default function ConfluenceSearch() {
                             <div className="flex-1 min-w-0 text-left">
                               <div className="flex items-center gap-2 mb-2">
                                 <Badge variant="secondary">
-                                  {group.documents.length} เอกสาร
+                                  {group.documents.length}{" "}
+                                  {group.documents.length === 1
+                                    ? "document"
+                                    : "documents"}
                                 </Badge>
                               </div>
                               <div className="flex items-center gap-1.5 flex-wrap text-sm">
@@ -415,7 +415,7 @@ export default function ConfluenceSearch() {
                                           >
                                             <ExternalLink className="h-3 w-3 flex-shrink-0" />
                                             <span className="truncate">
-                                              เปิดใน Confluence
+                                              Open in Confluence
                                             </span>
                                           </a>
                                         </div>
@@ -437,12 +437,12 @@ export default function ConfluenceSearch() {
                                         {copiedId === doc.id ? (
                                           <>
                                             <Check className="mr-2 h-4 w-4" />
-                                            คัดลอกแล้ว
+                                            Copied
                                           </>
                                         ) : (
                                           <>
                                             <Copy className="mr-2 h-4 w-4" />
-                                            คัดลอก URL
+                                            Copy URL
                                           </>
                                         )}
                                       </Button>
