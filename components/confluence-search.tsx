@@ -16,6 +16,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/theme-toggle";
 import {
   Calendar,
   Search,
@@ -173,10 +174,13 @@ export default function ConfluenceSearch() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-slate-950 dark:via-blue-950 dark:to-slate-900">
-      <div className="container max-w-7xl mx-auto p-6 space-y-8">
+      <div className="mx-auto max-w-6xl space-y-8 p-6">
         {/* Header */}
-        <div className="text-center space-y-4 py-8">
-          <div className="flex items-center justify-center gap-3 mb-2">
+        <div className="text-center space-y-4 py-8 relative">
+          <div className="absolute top-0 right-0">
+            <ThemeToggle />
+          </div>
+          <div className="flex items-center justify-center gap-4">
             <FileText className="h-10 w-10 text-primary" />
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent">
               Confluence Document Tracker
