@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { SearchResponse, DocumentContribution } from "@/types/confluence";
+import { exportToExcel } from "@/lib/excel";
 import type { ConfluenceConfig } from "@/types/config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -303,7 +304,7 @@ export default function ConfluenceSearch() {
                 <FileText className="h-5 w-5" />
                 Search Results
               </CardTitle>
-              <CardDescription className="flex items-center gap-2 flex-wrap">
+              <CardDescription className="flex items-center justify-between gap-2 flex-wrap">
                 <span>
                   Found{" "}
                   <Badge variant="default" className="inline-flex mx-1">
@@ -312,6 +313,15 @@ export default function ConfluenceSearch() {
                   documents contributed by{" "}
                   <span className="font-semibold">{results.searchedUser}</span>
                 </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => exportToExcel(results.documents)}
+                  className="gap-2"
+                >
+                  <FileText className="h-4 w-4" />
+                  Export to Excel
+                </Button>
               </CardDescription>
             </CardHeader>
             <CardContent>
